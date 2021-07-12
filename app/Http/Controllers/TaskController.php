@@ -10,10 +10,10 @@ class TaskController extends Controller
 
 	public function getApiTasks(){
 
-		$response = ['data' => null, 'succes' => false];
+		$response = ['data' => null, 'succes' => false, 404];
 		$tasks = Task::get();
 		if(!empty($tasks)){
-			$response = ['data' => $tasks, 'succes' => true];
+			$response = ['data' => $tasks, 'succes' => true, 200];
 		}
 
 		return json_encode($response);
@@ -50,11 +50,11 @@ class TaskController extends Controller
 	    		'date_of_task'  => $date_of_task
 	    	]);
 
-	    	$response = ['succes' => true, 'message' => 'Guardado Exitosamente !'];
+	    	$response = ['succes' => true, 'message' => 'Guardado Exitosamente !', 200];
 
     	}catch(\Exception $e){
 
-	    	$response = ['succes' => false, 'message' => $e->getMessage()];
+	    	$response = ['succes' => false, 'message' => $e->getMessage(), 400];
     	}
 
 	    return $response;
@@ -64,17 +64,17 @@ class TaskController extends Controller
     {
     	try{
 
-			$response = ['succes' => false, 'data' => null];
+			$response = ['succes' => false, 'data' => null, 404];
     		$data = Task::find($id);
 
     		if(!empty($data)){
 
-    			$response = ['succes' => true, 'data' => $data, 'message' => 'Datos cargados'];
+    			$response = ['succes' => true, 'data' => $data, 'message' => 'Datos cargados', 200];
     		}
 
     	}catch(\Exception $e){
 
-	    	$response = ['succes' => false, 'message' => $e->getMessage()];
+	    	$response = ['succes' => false, 'message' => $e->getMessage(), 500];
     	}
 
 	    return $response;
@@ -85,18 +85,18 @@ class TaskController extends Controller
     {
 
     	try{
-    		$response = ['succes' => false, 'message' => 'Registro no encontrado'];
+    		$response = ['succes' => false, 'message' => 'Registro no encontrado', 400];
     		$task = Task::find($id);
     		if(!empty($task)){
     			$task->code = $request->code;
     			$task->description = $request->description;
     			$task->save();
-		    	$response = ['succes' => true, 'message' => 'Proceso Exitoso !'];
+		    	$response = ['succes' => true, 'message' => 'Proceso Exitoso !', 22];
     		}
 
     	}catch(\Exception $e){
 
-	    	$response = ['succes' => false, 'message' => $e->getMessage()];
+	    	$response = ['succes' => false, 'message' => $e->getMessage(), 500];
     	}
 
 	    return $response;
